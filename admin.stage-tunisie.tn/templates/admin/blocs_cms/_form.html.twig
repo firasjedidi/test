@@ -1,0 +1,101 @@
+
+ {{ form_start(form) }}
+    {# {{ form_widget(form) }} #}
+    {# {{ form_row(form) }} #}
+      
+    <div class="row">
+        <label class="col-md-2 text-right">{{ form_label(form.actif)}}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+                {{ form_widget(form.actif, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2 text-right">{{ form_label(form.title) }}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+                 {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+ 
+    <div class="row">
+        <label class="col-md-2 text-right">{{ form_label(form.description,'Description') }}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+                 {{ form_widget(form.description, {'attr': {'class': 'form-control, tinyMCE'}}) }}
+            </div>
+        </div>
+    </div>
+
+
+      <div class="row row-optional" id="row-link" style="display:none">
+        <label class="col-md-2 text-right">{{ form_label(form.title_link) }}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+                 {{ form_widget(form.title_link, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+     <div class="row row-optional" id="row-link" style="display:none">
+        <label class="col-md-2 text-right">{{ form_label(form.link) }}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+                 {{ form_widget(form.link, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+    
+
+
+
+    <div class="row">
+        <label class="col-md-2 text-right">{{ form_label(form.date_add,'date de création') }}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+                {{ form_widget(form.date_add, {required: false,'attr': {'class': 'form-control datepicker', 'placeholder': 'dd-mm-yyyy'}}) }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <label class="col-md-2 text-right">{{ form_label(form.hook) }}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+                 {{ form_widget(form.hook, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+ 
+
+
+       <div class="row">
+        <label class="col-md-2 text-right">{{ form_label(form.image,'Image') }}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+                {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+            </div>
+           
+        </div>
+    </div>
+     {% if oldImage is defined and oldImage is not empty %}
+        {% if oldImage['file_exists'] == true %}
+                    <div class="row">
+                        <label class="col-md-2 text-right"></label>
+                        <div class="col-md-9 form-group">
+                        <div class="content-thumb-slider">
+                            <img src="{{asset(oldImage['url_image'])}}" class="thumb-slider-form"  />   
+                        </div>
+                        </div>
+                    </div>  
+                        
+        {% endif %}
+    {% endif %}
+        
+    <div class="text-right mt-3">
+        <button type="submit" class="btn btn-info">{{ button_label|default('Enregistrer') }}</button>
+        {# <a href="{{path('navigation')}}/liste?id={{ id_navigation }}" class="btn btn-dark">Retour à la liste</a> #}
+    </div>
+{{ form_end(form) }}

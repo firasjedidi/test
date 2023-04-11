@@ -1,0 +1,139 @@
+{{ form_start(form) }}
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.titre)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.url_simplifiee)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.url_simplifiee, {'attr': {'class': 'form-control'}}) }}
+		</div>
+	</div>
+</div>
+
+       <div class="row">
+        <label class="col-md-2 text-right">{{ form_label(form.image,'Image') }}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+                {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+            </div>
+           
+        </div>
+    </div>
+     {% if oldImage is defined and oldImage is not empty %}
+        {% if oldImage['file_exists'] == true %}
+                    <div class="row">
+                        <label class="col-md-2 text-right"></label>
+                        <div class="col-md-9 form-group">
+                        <div class="content-thumb-slider">
+                            <img src="{{asset(oldImage['url_image'])}}" class="thumb-slider-form"  />   
+                        </div>
+                        </div>
+                    </div>  
+                        
+        {% endif %}
+    {% endif %}
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.courte_description)}}</label>
+	<div class="col-md-7">
+		<div class="form-group" >
+			{{ form_widget(form.courte_description) }}
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.contenu)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.contenu) }}
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.date_debut)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.date_debut) }}
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.date_fin)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.date_fin) }}
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.balise_titre)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.balise_titre, {'attr': {'class': 'form-control'}}) }}
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.meta_description)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.meta_description, {'attr': {'class': 'form-control'}}) }}
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.meta_mot_cles)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.meta_mot_cles, {'attr': {'class': 'form-control'}}) }}
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.active)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.active) }}
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<label class="col-md-2 text-right">{{ form_label(form.categorie_id)}}</label>
+	<div class="col-md-7">
+		<div class="form-group">
+			{{ form_widget(form.categorie_id, {'attr': {'class': 'form-control'}}) }}
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+        <label class="col-md-2 text-right">{{ form_label(form.position)}}</label>
+        <div class="col-md-7">
+            <div class="form-group">
+               <input  {{ form_widget(form.position, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+
+			<div class="text-right mt-3">
+        <button type="submit" class="btn btn-info">{{ button_label|default('Enregistrer') }}</button>
+        <a href="{{ path('gestionactualite') }}" class="btn btn-dark">Retour à la liste</a>
+    </div>
+			{{ form_end(form) }}

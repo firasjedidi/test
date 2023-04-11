@@ -1,0 +1,167 @@
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Edit BlocsCms{% endblock %}
+
+{% block body %}
+    <h1>Edit BlocsCms</h1>
+
+    {{ include('blocs_cms/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('blocs_cms_index') }}">back to list</a>
+
+    {{ include('blocs_cms/_delete_form.html.twig') }}
+{% endblock %}
+ #}
+
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Modifier Bloc CMS {% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+        <script type="text/javascript" src="{{asset('assets/js/jquery.mask.min.js')}}" ></script>
+     <link rel="stylesheet" href="https://unpkg.com/dropzone/dist/dropzone.css" />
+    <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
+    <script src="https://unpkg.com/dropzone"></script>
+    <script src="https://unpkg.com/cropperjs"></script>
+     <script src="{{asset('assets/extra-libs/tinymce/tinymce.min.js')}}"></script>
+    <script type="text/javascript">
+      $( document ).ready(function() {
+
+            tinymce.init({
+            selector: 'textarea.tinyMCE',
+            language: 'fr_FR',
+            height: 500,
+            menubar: false,
+           plugins: [
+                'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+                'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media',
+                'table', 'emoticons', 'template', 'help'
+            ],
+            toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+                'forecolor backcolor emoticons | help',
+            menu: {
+                favs: { title: 'Mes favories', items: 'code visualaid | searchreplace | emoticons' }
+            },
+            menubar: 'favs file edit view insert format tools table help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+            });
+           
+          $('.datepicker').datepicker({
+          });
+          $.datepicker.regional['fr'] = {
+            closeText: 'Fermer',
+            prevText: '&#x3c;Préc',
+            nextText: 'Suiv&#x3e;',
+            currentText: 'Aujourd\'hui',
+            monthNames: ['Janvier','Fevrier','Mars','Avril','Mai','Juin',
+            'Juillet','Aout','Septembre','Octobre','Novembre','Decembre'],
+            monthNamesShort: ['Jan','Fev','Mar','Avr','Mai','Jun',
+            'Jul','Aou','Sep','Oct','Nov','Dec'],
+            dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+            dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+            dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            todayHighlight: true,
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            //minDate: '-80Y',
+           // maxDate: '-18Y', 
+            numberOfMonths: 1,
+            showButtonPanel: true
+		};
+	    $.datepicker.setDefaults($.datepicker.regional['fr']);
+      
+        /**************** crop image***************/
+
+        var $modal = $('#modal_crop');
+        var image = document.getElementById('sample_image');
+        var cropper;
+        $('.upload_photo').change(function(event){
+            var files = event.target.files;
+            var done = function (url) {
+                image.src = url;
+                $modal.modal('show');
+            };
+            if (files && files.length > 0)
+            { 
+                reader = new FileReader();
+                reader.onload = function (event) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(files[0]);  
+            }
+        });
+
+        $modal.on('shown.bs.modal', function() {
+            cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 3,
+                preview: '.preview'
+            });
+        }).on('hidden.bs.modal', function() {
+            cropper.destroy();
+            cropper = null;
+        });
+
+        $("#crop").click(function(){
+                canvas = cropper.getCroppedCanvas({
+                    width: 400,
+                    height: 400,
+                });
+            canvas.toBlob(function(blob) {
+                var reader = new FileReader();
+                reader.readAsDataURL(blob); 
+                reader.onloadend = function() {
+                    var base64data = reader.result;  
+                    $.ajax({
+                        url: "{{path('membres_cropImage')}}",
+                        type: "POST",                	
+                        data: {image: base64data},
+                        success: function(response){
+                            $modal.modal('hide');
+                            $('#upload_image').attr('src', '/'+response.path);
+                            $('#upload_image').show();
+                            $('form').append("<input type='hidden' name='photoMembre' value='"+response.imageName+"'>");
+
+                        }
+                    });
+                }
+            });
+        });
+       
+      })
+    
+ 
+    </script>
+  
+{% endblock %}
+
+{% block body %}
+
+   
+    <div class="page-wrapper">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Edit</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+    
+        <div class="card">
+            <div class="card-body">
+                    {{ include('admin/blocs_cms/_form.html.twig ',  {'button_label': 'Enregister'}) }}
+            </div>
+        </div>
+    </div>
+    
+
+   
+{% endblock %}
+

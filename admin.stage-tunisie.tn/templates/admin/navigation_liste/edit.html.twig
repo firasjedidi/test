@@ -1,0 +1,47 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Modifier Menu{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $( document ).ready(function() {
+           CheckedTypeLink();
+            $("select#navigation_liste_type_de_page").on('change',function(){
+               CheckedTypeLink();
+            })
+            
+        })
+        function CheckedTypeLink(){
+            $('.row-optional').hide();
+                var type =  $("select#navigation_liste_type_de_page").val();
+                if(type == 'link'){
+                    $('#row-link').show();
+                }
+            }
+    </script
+{% endblock %}
+
+{% block body %}
+
+   
+    <div class="page-wrapper">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Edit</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+    
+        <div class="card">
+            <div class="card-body">
+                    {{ include('admin/navigation_liste/_form.html.twig',  {'button_label': 'Enregister'}) }}
+            </div>
+        </div>
+    </div>
+    
+
+   
+{% endblock %}
